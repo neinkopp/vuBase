@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const VideoPage: React.FC<VideoPageProps> = ({ videos }) => {
-	const hostName = window.location.hostname;
 	const translator = short();
 
 	const [playerKey, setPlayerKey] = useState(Math.random());

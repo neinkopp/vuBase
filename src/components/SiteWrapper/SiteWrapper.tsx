@@ -42,32 +42,16 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 	onDarkModeChange,
 }) => {
 	axios.defaults.withCredentials = true;
-	const [hostName] = useState(window.location.hostname);
 	const location = useLocation();
 
 	const [isAuth, setIsAuth] = useState<boolean>();
 	const [roomName, setRoomName] = useState<string | false>();
+	const [serverError, setServerError] = useState<boolean>(false);
 
 	useEffect(() => {
-		axios.get(`${process.env.REACT_APP_API_HOST}/auth`).then((result) => {
-			if (result.data.authorized) {
-				setIsAuth(result.data.authorized);
-				setRoomName(result.data.roomName);
-				axios
-					.get(`${process.env.REACT_APP_API_HOST}/videos`)
-					.then((response) => {
-						setVideoList(response.data);
-					});
-			} else {
-				setIsAuth(false);
-				setRoomName(false);
-			}
-		});
-	}, [hostName]);
-
-	useEffect(() => {
-		if (isAuth === true) {
-			axios.get(`${process.env.REACT_APP_API_HOST}/auth`).then((result) => {
+		axios
+			.get(`${process.env.REACT_APP_API_HOST}/auth`)
+			.then((result) => {
 				if (result.data.authorized) {
 					setIsAuth(result.data.authorized);
 					setRoomName(result.data.roomName);
@@ -80,9 +64,41 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 					setIsAuth(false);
 					setRoomName(false);
 				}
+			})
+			.catch((e) => {
+				console.log(e);
+				setIsAuth(false);
+				setServerError(true);
 			});
+	}, []);
+
+	useEffect(() => {
+		if (isAuth === true) {
+			axios
+				.get(`${process.env.REACT_APP_API_HOST}/auth`)
+				.then((result) => {
+					if (result.data.authorized) {
+						setIsAuth(result.data.authorized);
+						setRoomName(result.data.roomName);
+						axios
+							.get(`${process.env.REACT_APP_API_HOST}/videos`)
+							.then((response) => {
+								setVideoList(response.data);
+								setServerError(false);
+							});
+					} else {
+						setIsAuth(false);
+						setRoomName(false);
+						setServerError(false);
+					}
+				})
+				.catch((e) => {
+					console.log(e);
+					setIsAuth(false);
+					setServerError(true);
+				});
 		}
-	}, [hostName, isAuth]);
+	}, [isAuth]);
 
 	const logout = () => {
 		axios
@@ -149,7 +165,7 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 					<Redirect from="*" to="/" />
 				</Switch>
 			) : (
-				<Login onLoginTry={() => setIsAuth(true)} />
+				<Login onLoginTry={() => setIsAuth(true)} serverError={serverError} />
 			)}
 		</div>
 	);

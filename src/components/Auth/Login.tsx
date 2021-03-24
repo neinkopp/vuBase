@@ -15,6 +15,7 @@ import React, { useState } from "react";
 
 interface LoginProps {
 	onLoginTry: (data: boolean) => void;
+	serverError: boolean;
 }
 
 interface Credentials {
@@ -22,8 +23,7 @@ interface Credentials {
 	password: string;
 }
 
-export const Login: React.FC<LoginProps> = ({ onLoginTry }) => {
-	const [hostName] = useState(window.location.hostname);
+export const Login: React.FC<LoginProps> = ({ onLoginTry, serverError }) => {
 	const [credentials, setCredentials] = useState<Credentials>({
 		room: "",
 		password: "",
@@ -43,8 +43,10 @@ export const Login: React.FC<LoginProps> = ({ onLoginTry }) => {
 				}
 			})
 			.catch((e) => {
-				if (e.response.status === 401) {
-					setError(true);
+				if (e.response) {
+					if (e.response.status === 401) {
+						setError(true);
+					}
 				}
 			});
 	};
@@ -88,6 +90,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginTry }) => {
 					</Typography>
 					<form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
 						<TextField
+							disabled={serverError}
 							value={credentials.room}
 							onChange={(e) =>
 								setCredentials({
@@ -108,6 +111,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginTry }) => {
 							autoFocus
 						/>
 						<TextField
+							disabled={serverError}
 							value={credentials.password}
 							onChange={(e) =>
 								setCredentials({
@@ -131,8 +135,15 @@ export const Login: React.FC<LoginProps> = ({ onLoginTry }) => {
 							<Alert severity="error">
 								Ungültiger Kursname oder falsches Passwort
 							</Alert>
+						) : serverError ? (
+							<Alert severity="error">
+								Es konnte keine Verbindung zum vuBase-Server hergestellt werden.
+								Bitte überprüfen Sie Ihre Internetverbindung und laden Sie die
+								Seite neu.
+							</Alert>
 						) : null}
 						<Button
+							disabled={serverError}
 							type="submit"
 							fullWidth
 							variant="contained"
