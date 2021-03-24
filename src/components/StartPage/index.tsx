@@ -87,6 +87,7 @@ export const StartPage: React.FC<StartPageProps> = ({ videos, roomName }) => {
 							);
 					  })
 					: null}
+				{process.env.REACT_APP_API_HOST}
 			</Grid>
 		</Container>
 	);
