@@ -1,0 +1,14 @@
+.dls-player-wrapper {
+	width: 100%;
+	height: 100%;
+}
+
+.dls-player {
+	width: 100% !important;
+	height: auto !important;
+}
+
+.dls-player video {
+	outline: none;
+	max-height: 75vh;
+}
