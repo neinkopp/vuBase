@@ -22,6 +22,9 @@ interface Video {
 	uuid: string;
 	title: string;
 	desc: string;
+	subject: {
+		name: string;
+	};
 }
 
 export const StartPage: React.FC<StartPageProps> = ({ videos, roomName }) => {
@@ -45,7 +48,7 @@ export const StartPage: React.FC<StartPageProps> = ({ videos, roomName }) => {
 	return (
 		<Container maxWidth="md">
 			<Box m={3} />
-			<Grid container component={Box} spacing={1}>
+			<Grid container component={Box} spacing={2}>
 				<Grid item xs={12}>
 					<Box
 						p={5}
@@ -83,11 +86,11 @@ export const StartPage: React.FC<StartPageProps> = ({ videos, roomName }) => {
 									title={d.title}
 									description={d.desc}
 									videoId={d.uuid}
+									subject={d.subject}
 								/>
 							);
 					  })
 					: null}
-				{process.env.REACT_APP_API_HOST}
 			</Grid>
 		</Container>
 	);

@@ -16,22 +16,42 @@ interface VideoResultProps {
 	videoId: string;
 	title: string;
 	description: string;
+	subject: {
+		name: string;
+	};
 }
 
 export const VideoResult: React.FC<VideoResultProps> = ({
 	videoId,
 	title,
 	description,
+	subject,
 }) => {
 	return (
 		<Grid item xs={12}>
 			<Box>
 				<Accordion>
 					<AccordionSummary>
-						<Typography variant="h6">{title}</Typography>
+						<section
+							style={{
+								display: "flex",
+								flexGrow: 1,
+								justifyContent: "space-between",
+								alignContent: "center",
+							}}
+						>
+							<Typography variant="h6">{title}</Typography>
+							<Typography variant="body1" style={{ lineHeight: 2 }}>
+								{subject.name}
+							</Typography>
+						</section>
 					</AccordionSummary>
 					<AccordionDetails>
-						<Typography variant="body1" component="pre">
+						<Typography
+							variant="body1"
+							component="pre"
+							style={{ whiteSpace: "pre-line" }}
+						>
 							{description}
 						</Typography>
 					</AccordionDetails>

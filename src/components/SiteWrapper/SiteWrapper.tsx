@@ -16,6 +16,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router";
 import { Link } from "react-router-dom";
+import { Link as MuiLink } from "@material-ui/core";
 import { Login } from "../Auth/Login";
 import { Logout } from "../Auth/Logout";
 import { StartPage } from "../StartPage";
@@ -106,11 +107,12 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 			.then((result) => {
 				setIsAuth(!result.data.loggedOut);
 			});
+		setVideoList(null);
 	};
 
 	const [videolist, setVideoList] = useState<Video[] | null>(null);
 	return (
-		<div>
+		<div style={{ minHeight: "100%" }}>
 			<AppBar position="static">
 				<Toolbar>
 					<SvgIcon fontSize="large">
@@ -167,6 +169,26 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 			) : (
 				<Login onLoginTry={() => setIsAuth(true)} serverError={serverError} />
 			)}
+			<Box
+				bottom={0}
+				left={0}
+				textAlign="center"
+				width="100%"
+				position="absolute"
+				p={1}
+			>
+				<Typography variant="subtitle2">
+					Made with ❤ by{" "}
+					<MuiLink
+						color="inherit"
+						href="https://github.com/neinkopp"
+						target="_blank"
+						rel="noreferrer"
+					>
+						Jakob Schleitzer
+					</MuiLink>
+				</Typography>
+			</Box>
 		</div>
 	);
 };
