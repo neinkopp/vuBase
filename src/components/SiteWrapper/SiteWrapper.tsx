@@ -48,8 +48,7 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 	const [isAuth, setIsAuth] = useState<boolean>();
 	const [roomName, setRoomName] = useState<string | false>();
 	const [serverError, setServerError] = useState<boolean>(false);
-
-	useEffect(() => {
+	const fetchApiData = React.useCallback(() => {
 		axios
 			.get(`${process.env.REACT_APP_API_HOST}/auth`)
 			.then((result) => {
@@ -60,10 +59,12 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 						.get(`${process.env.REACT_APP_API_HOST}/videos`)
 						.then((response) => {
 							setVideoList(response.data);
+							setServerError(false);
 						});
 				} else {
 					setIsAuth(false);
 					setRoomName(false);
+					setServerError(false);
 				}
 			})
 			.catch((e) => {
@@ -73,33 +74,9 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 			});
 	}, []);
 
-	useEffect(() => {
-		if (isAuth === true) {
-			axios
-				.get(`${process.env.REACT_APP_API_HOST}/auth`)
-				.then((result) => {
-					if (result.data.authorized) {
-						setIsAuth(result.data.authorized);
-						setRoomName(result.data.roomName);
-						axios
-							.get(`${process.env.REACT_APP_API_HOST}/videos`)
-							.then((response) => {
-								setVideoList(response.data);
-								setServerError(false);
-							});
-					} else {
-						setIsAuth(false);
-						setRoomName(false);
-						setServerError(false);
-					}
-				})
-				.catch((e) => {
-					console.log(e);
-					setIsAuth(false);
-					setServerError(true);
-				});
-		}
-	}, [isAuth]);
+	useEffect(() => fetchApiData(), [fetchApiData]);
+
+	useEffect(() => fetchApiData(), [fetchApiData, isAuth]);
 
 	const logout = () => {
 		axios
@@ -159,7 +136,11 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 			{isAuth !== false && roomName !== false ? (
 				<Switch>
 					<Route exact path="/">
-						<StartPage roomName={roomName} videos={videolist} />
+						<StartPage
+							roomName={roomName}
+							videos={videolist}
+							onLoad={fetchApiData}
+						/>
 					</Route>
 					<Route exact path="/video/:id">
 						<VideoPage videos={videolist} />

@@ -9,13 +9,14 @@ import {
 	Typography,
 	useTheme,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SearchBar } from "../SearchBar";
 import { VideoResult } from "./VideoResult";
 
 interface StartPageProps {
 	videos: Video[] | null;
 	roomName: string | undefined;
+	onLoad: () => void;
 }
 
 interface Video {
@@ -27,7 +28,11 @@ interface Video {
 	};
 }
 
-export const StartPage: React.FC<StartPageProps> = ({ videos, roomName }) => {
+export const StartPage: React.FC<StartPageProps> = ({
+	videos,
+	roomName,
+	onLoad,
+}) => {
 	const [searchInput, setSearchInput] = useState<string>("");
 
 	const filteredVideos = videos?.filter((video) => {
@@ -41,6 +46,10 @@ export const StartPage: React.FC<StartPageProps> = ({ videos, roomName }) => {
 			},
 		})
 	);
+
+	useEffect(() => {
+		onLoad();
+	}, []);
 
 	const classes = useStyles();
 	const theme = useTheme();
