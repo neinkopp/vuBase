@@ -42,7 +42,11 @@ export const Video: React.FC<VideoProps> = ({
 					</span>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography variant="body1" component="pre">
+					<Typography
+						variant="body1"
+						component="pre"
+						style={{ whiteSpace: "pre-line" }}
+					>
 						{description}
 					</Typography>
 				</AccordionDetails>
