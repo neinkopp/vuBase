@@ -49,7 +49,7 @@ export const StartPage: React.FC<StartPageProps> = ({
 
 	useEffect(() => {
 		onLoad();
-	}, []);
+	}, [onLoad]);
 
 	const classes = useStyles();
 	const theme = useTheme();

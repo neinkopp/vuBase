@@ -5,7 +5,6 @@ import {
 	AccordionSummary,
 	Typography,
 	AccordionDetails,
-	AccordionActions,
 } from "@material-ui/core";
 import React from "react";
 import { Player } from "./Player";
