@@ -47,7 +47,6 @@ export const Video: React.FC<VideoProps> = ({
 						{description}
 					</Typography>
 				</AccordionDetails>
-				<AccordionActions></AccordionActions>
 			</Accordion>
 		</Box>
 	);

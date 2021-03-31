@@ -5,6 +5,7 @@ import {
 	SvgIcon,
 	Theme,
 	Toolbar,
+	Tooltip,
 	Typography,
 } from "@material-ui/core";
 import {
@@ -158,17 +159,23 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 				position="absolute"
 				p={1}
 			>
-				<Typography variant="subtitle2">
-					Made with ❤ by{" "}
-					<MuiLink
-						color="inherit"
-						href="https://github.com/neinkopp"
-						target="_blank"
-						rel="noreferrer"
-					>
-						Jakob Schleitzer
-					</MuiLink>
-				</Typography>
+				<Tooltip
+					arrow
+					placement="top"
+					title="© 2021. Alle Videorechte vorbehalten."
+				>
+					<Typography variant="subtitle2">
+						Created with ♡ by{" "}
+						<MuiLink
+							color="inherit"
+							href="https://github.com/neinkopp"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Jakob Schleitzer
+						</MuiLink>
+					</Typography>
+				</Tooltip>
 			</Box>
 		</div>
 	);
