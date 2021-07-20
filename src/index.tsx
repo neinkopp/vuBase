@@ -1,17 +1,24 @@
-import axios from 'axios';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import axios from "axios";
+import React from "react";
+import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
-import { App } from './App';
-import reportWebVitals from './reportWebVitals';
+import { App } from "./App";
+import reportWebVitals from "./reportWebVitals";
 
 axios.defaults.withCredentials = true;
+
+// Add a request interceptor
+axios.interceptors.request.use((config) => {
+	const token = sessionStorage.getItem("VUBASE-CSURF");
+	config.headers.common["X-CSRF-TOKEN"] = token;
+	return config;
+});
 
 ReactDOM.render(
 	<Router>
 		<App />
 	</Router>,
-	document.getElementById('root')
+	document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
