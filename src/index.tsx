@@ -7,13 +7,6 @@ import reportWebVitals from "./reportWebVitals";
 
 axios.defaults.withCredentials = true;
 
-// Add a request interceptor
-axios.interceptors.request.use((config) => {
-	const token = sessionStorage.getItem("VUBASE-CSURF");
-	config.headers.common["X-CSRF-TOKEN"] = token;
-	return config;
-});
-
 ReactDOM.render(
 	<Router>
 		<App />

@@ -53,7 +53,6 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 		axios
 			.get(`${process.env.REACT_APP_API_HOST}/auth`)
 			.then((result) => {
-				sessionStorage.setItem("VUBASE-CSURF", result.data.csrfToken);
 				if (result.data.authorized) {
 					setIsAuth(result.data.authorized);
 					setRoomName(result.data.roomName);

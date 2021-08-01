@@ -4,6 +4,7 @@ import {
 	ThemeProvider,
 	useMediaQuery,
 } from "@material-ui/core";
+import axios from "axios";
 // import { Shadows } from "@material-ui/core/styles/shadows";
 import React, { useEffect, useState } from "react";
 import "./App.css";
@@ -11,6 +12,16 @@ import { SiteWrapper } from "./components/SiteWrapper/SiteWrapper";
 interface AppProps {}
 
 export const App: React.FC<AppProps> = () => {
+	useEffect(() => {
+		const getCsrfToken = async () => {
+			const { data } = await axios.get(
+				`${process.env.REACT_APP_API_HOST}/auth/csrf-token`
+			);
+			axios.defaults.headers.post["X-CSRF-Token"] = data.csrfToken;
+		};
+		getCsrfToken();
+	}, []);
+
 	const preferredMode = useMediaQuery("(prefers-color-scheme: dark)");
 	useEffect(() => {
 		if (!localStorage.getItem("PREFERS_DARKMODE")) {
