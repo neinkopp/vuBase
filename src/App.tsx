@@ -12,16 +12,6 @@ import { SiteWrapper } from "./components/SiteWrapper/SiteWrapper";
 interface AppProps {}
 
 export const App: React.FC<AppProps> = () => {
-	useEffect(() => {
-		const getCsrfToken = async () => {
-			const { data } = await axios.get(
-				`${process.env.REACT_APP_API_HOST}/auth/csrf-token`
-			);
-			axios.defaults.headers.post["X-CSRF-Token"] = data.csrfToken;
-		};
-		getCsrfToken();
-	}, []);
-
 	const preferredMode = useMediaQuery("(prefers-color-scheme: dark)");
 	useEffect(() => {
 		if (!localStorage.getItem("PREFERS_DARKMODE")) {

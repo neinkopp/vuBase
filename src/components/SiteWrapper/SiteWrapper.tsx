@@ -50,30 +50,39 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 	const [roomName, setRoomName] = useState<string | false>();
 	const [serverError, setServerError] = useState<boolean>(false);
 	const fetchApiData = React.useCallback(() => {
-		axios
-			.get(`${process.env.REACT_APP_API_HOST}/auth`)
-			.then((result) => {
-				if (result.data.authorized) {
-					setIsAuth(result.data.authorized);
-					setRoomName(result.data.roomName);
-					axios
-						.get(`${process.env.REACT_APP_API_HOST}/videos`)
-						.then((response) => {
-							setVideoList(response.data);
-							setServerError(false);
-						});
-				} else {
+		if (isAuth === true || isAuth === undefined) {
+			axios
+				.get(`${process.env.REACT_APP_API_HOST}/auth`)
+				.then((result) => {
+					const getCsrfToken = async () => {
+						const { data } = await axios.get(
+							`${process.env.REACT_APP_API_HOST}/auth/csrf-token`
+						);
+						axios.defaults.headers.post["X-CSRF-Token"] = data.csrfToken;
+					};
+					getCsrfToken();
+					if (result.data.authorized) {
+						setIsAuth(result.data.authorized);
+						setRoomName(result.data.roomName);
+						axios
+							.get(`${process.env.REACT_APP_API_HOST}/videos`)
+							.then((response) => {
+								setVideoList(response.data);
+								setServerError(false);
+							});
+					} else {
+						setIsAuth(false);
+						setRoomName(false);
+						setServerError(false);
+					}
+				})
+				.catch((e) => {
+					console.log(e);
 					setIsAuth(false);
-					setRoomName(false);
-					setServerError(false);
-				}
-			})
-			.catch((e) => {
-				console.log(e);
-				setIsAuth(false);
-				setServerError(true);
-			});
-	}, []);
+					setServerError(true);
+				});
+		}
+	}, [isAuth]);
 
 	useEffect(() => fetchApiData(), [fetchApiData]);
 
