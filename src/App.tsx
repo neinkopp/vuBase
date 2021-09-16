@@ -4,7 +4,6 @@ import {
 	ThemeProvider,
 	useMediaQuery,
 } from "@material-ui/core";
-import axios from "axios";
 // import { Shadows } from "@material-ui/core/styles/shadows";
 import React, { useEffect, useState } from "react";
 import "./App.css";
