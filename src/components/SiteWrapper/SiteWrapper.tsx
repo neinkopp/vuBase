@@ -167,6 +167,9 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 				width="100%"
 				position="fixed"
 				p={1}
+				style={{
+					backgroundColor: "#00000080",
+				}}
 			>
 				<Tooltip
 					arrow
