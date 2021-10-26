@@ -160,6 +160,7 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 			) : (
 				<Login onLoginTry={() => setIsAuth(true)} serverError={serverError} />
 			)}
+			<Box style={{ paddingBottom: "2.5em" }} />
 			<Box
 				bottom={0}
 				left={0}
@@ -168,7 +169,8 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 				position="fixed"
 				p={1}
 				style={{
-					backgroundColor: "#00000080",
+					backgroundColor: "#00000099",
+					color: "white",
 				}}
 			>
 				<Tooltip
