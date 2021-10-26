@@ -165,7 +165,7 @@ export const SiteWrapper: React.FC<SiteWrapperProps> = ({
 				left={0}
 				textAlign="center"
 				width="100%"
-				position="absolute"
+				position="fixed"
 				p={1}
 			>
 				<Tooltip
